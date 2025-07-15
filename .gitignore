@@ -49,4 +49,4 @@ target/
 
 # Logs
 *.log
-
+Dockerfile
