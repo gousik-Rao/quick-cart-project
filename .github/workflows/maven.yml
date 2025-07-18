@@ -18,7 +18,16 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env:
+      DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
+      DATASOURCE_USER: ${{ secrets.DATASOURCE_USER }}
+      DATASOURCE_PASSWORD: ${{ secrets.DATASOURCE_PASSWORD }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRATION_MS: 999999999
+      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+      IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
+      FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+      
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
