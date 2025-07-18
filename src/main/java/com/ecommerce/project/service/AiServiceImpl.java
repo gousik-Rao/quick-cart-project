@@ -1,17 +1,19 @@
 package com.ecommerce.project.service;
 
-import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
+import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel.ChatModel;
+import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.project.exception.APIException;
 import com.ecommerce.project.payload.ProductRecommendationRequest;
+
 @Service
 public class AiServiceImpl implements AiService {
-    private final ChatModel chatModel;
+    private final VertexAiGeminiChatModel chatModel;
 
-    public AiServiceImpl(ChatModel chatModel) {
+    public AiServiceImpl(VertexAiGeminiChatModel chatModel) {
         this.chatModel = chatModel;
     }
 
@@ -21,7 +23,8 @@ public class AiServiceImpl implements AiService {
         if(request.getAge() > 120 || request.getAge() < 0){
             throw new APIException("Please provide valid age.");
         }
-        if(request.getGender().getName().equals("MALE") || request.getGender().getName().equals("FEMALE")){
+        if(!("MALE".equalsIgnoreCase(request.getGender().getName()) ||
+        	"FEMALE".equalsIgnoreCase(request.getGender().getName()))){
             throw new APIException("Please select valid gender.");
         }
         if(request.getUserGoals().isEmpty()){
@@ -48,11 +51,11 @@ public class AiServiceImpl implements AiService {
                 """,request.getAge(), request.getGender(), request.getUserGoals());
 
         Prompt prompt = new Prompt(structuredRequest,
-                OpenAiChatOptions.builder()
-                        .withModel("gpt-4o")
-                        .withTemperature(0.1F)
-                        .withMaxTokens(380)
+                VertexAiGeminiChatOptions.builder()
+                        .model(ChatModel.GEMINI_2_5_PRO)
+                        .temperature(0.1)
+                        .maxOutputTokens(380)
                         .build());
-        return chatModel.call(prompt).getResult().getOutput().getContent();
+        return chatModel.call(prompt).getResult().getOutput().getText();
     }
 }

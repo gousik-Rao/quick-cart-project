@@ -33,7 +33,7 @@ build/
 .vscode/
 
 # Secrets
-.env
+.env.properties
 *.env
 application.yml
 *.yml
