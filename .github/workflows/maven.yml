@@ -76,6 +76,24 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -X  # Add -X for verbose Maven logging to see property resolution
 
+    - name: Generate application.yml
+      run: |
+        cat <<EOF > src/main/resources/application.yml
+        spring:
+          ai:
+            vertex:
+              ai:
+                gemini:
+                  project-id: ${GCP_PROJECT_ID}
+                  location: ${SPRING_AI_VERTEX_AI_GEMINI_LOCATION}
+                  service-account-location: classpath:vertex-ai-api-key.json
+                  chat:
+                    model: ${SPRING_AI_VERTEX_AI_GEMINI_CHAT_MODEL}
+                    
+          # Add other required sections here
+          EOF
+          ls src/main/resources/  # Debug
+          
       # For debugging
     - name: Debug ENV Vars (temp)
       run: echo "${SPRING_AI_VERTEX_GEMINI_CREDENTIALS}" | jq .
