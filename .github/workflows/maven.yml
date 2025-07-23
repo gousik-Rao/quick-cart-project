@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # SPRING APP PROPERTIES
-      spring.app.jwtSecret: ${{ secrets.JWT_SECRET }}
-      spring.app.jwtExpirationMs: 999999999
-      spring.ecom.app.jwtCookieName: springBootEcom
+      SPRING_APP_JWTSECRET: ${{ secrets.JWT_SECRET }}
+      SPRING_APP_JWTEXPIRATIONMS: 999999999
+      SPRING_ECOM_APP_JWTCOOKIENAME: springBootEcom
 
       # DB PROPERTIES
       DATASOURCE_URL: jdbc:h2:mem:testdb
