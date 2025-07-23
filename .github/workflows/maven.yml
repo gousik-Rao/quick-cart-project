@@ -19,14 +19,29 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
+      # SPRING APP PROPERTIES
+      spring.app.jwtSecret: ${{ secrets.JWT_SECRET }}
+      spring.app.jwtExpirationMs: 999999999
+      spring.ecom.app.jwtCookieName: springBootEcom
+
+      # DB PROPERTIES
       DATASOURCE_URL: jdbc:h2:mem:testdb
-      DATASOURCE_USER: ${{ secrets.DATASOURCE_USER }}
-      DATASOURCE_PASSWORD: ${{ secrets.DATASOURCE_PASSWORD }}
-      JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      JWT_EXPIRATION_MS: 999999999
+      DATASOURCE_USER: testuser
+      DATASOURCE_PASSWORD: testpass
+
+      # STRIPE
       STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+
+      # IMAGE + FRONTEND
       IMAGE_BASE_URL: http://localhost:8080/images
       FRONTEND_URL: http://localhost:3000
+
+      # GOOGLE VERTEX AI
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+      # OPTIONAL: PROFILE AND PORT
+      PORT: 8080
+
       
     steps:
     - uses: actions/checkout@v4
