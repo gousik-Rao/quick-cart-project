@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.project.payload.ProductRecommendationRequest;
-import com.ecommerce.project.service.AiServiceImpl;
+import com.ecommerce.project.service.AiService;
 
 @RestController
 @RequestMapping("/api/recommendations")
 public class ProductRecommendationController {
 
-    private final AiServiceImpl aiService;
+    private final AiService aiService;
 
-    public ProductRecommendationController(AiServiceImpl aiService) {
+    public ProductRecommendationController(AiService aiService) {
         this.aiService = aiService;
     }
 
