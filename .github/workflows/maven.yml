@@ -69,11 +69,8 @@ jobs:
       run: |
         mkdir -p src/main/resources  # Ensure the directory exists
           echo "${SPRING_AI_VERTEX_AI_GEMINI_CREDENTIALS}" > src/main/resources/vertex-ai-api-key.json
-          ls src/main/resources/  # Debug: confirm file creation
+          # ls src/main/resources/  # Debug: confirm file creation
       
-    - name: Debug ENV Vars (temp)
-      run: env | grep -E 'GCP|SPRING_AI'  # Improved grep for relevant vars
-
     - name: Generate application.yml
       run: |
         cat <<EOF > src/main/resources/application.yml
@@ -90,14 +87,17 @@ jobs:
         EOF
           
       # For debugging
-    - name: Debug Spring AI ENV
-      run: |
-        echo "PROJECT_ID: $GCP_PROJECT_ID"
-        echo "SPRING_AI_VERTEX_AI_GEMINI_PROJECT_ID: $SPRING_AI_VERTEX_AI_GEMINI_PROJECT_ID"
+    # - name: Debug Spring AI ENV
+    #   run: |
+    #     echo "PROJECT_ID: $GCP_PROJECT_ID"
+    #     echo "SPRING_AI_VERTEX_AI_GEMINI_PROJECT_ID: $SPRING_AI_VERTEX_AI_GEMINI_PROJECT_ID"
+
+    # - name: Debug ENV Vars (temp)
+    #   run: env | grep -E 'GCP|SPRING_AI'  # Improved grep for relevant vars
 
     # Final Build Step
     - name: Build with Maven
       run: mvn -B package --file pom.xml -X  # Add -X for verbose Maven logging to see property resolution
       
-    - name: Debug ENV Vars (temp)
-      run: echo "${SPRING_AI_VERTEX_GEMINI_CREDENTIALS}" | jq .
+    # - name: Debug ENV Vars (temp)
+    #   run: echo "${SPRING_AI_VERTEX_GEMINI_CREDENTIALS}" | jq .
