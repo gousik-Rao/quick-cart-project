@@ -38,9 +38,9 @@ jobs:
       PROJECT_IMAGE: images/
       
       # GOOGLE VERTEX AI
-      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      SPRING_AI_VERTEX_AI_GEMINI_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       SPRING_AI_VERTEX_AI_GEMINI_LOCATION: us-central1
-      SPRING_AI_VERTEX_AI_GEMINI_CREDENTIALS: ${{secrets.GCP_SERVICE_ACCOUNT_JSON}}
+      # SPRING_AI_VERTEX_AI_GEMINI_CREDENTIALS: ${{secrets.GCP_SERVICE_ACCOUNT_JSON}}
       SPRING_AI_VERTEX_AI_GEMINI_CHAT_MODEL: gemini-pro
 
       # OPTIONAL: PROFILE AND PORT
@@ -95,5 +95,10 @@ jobs:
           ls src/main/resources/  # Debug
           
       # For debugging
+    - name: Debug Spring AI ENV
+      run: |
+        echo "PROJECT_ID: $GCP_PROJECT_ID"
+        echo "SPRING_AI_VERTEX_AI_GEMINI_PROJECT_ID: $SPRING_AI_VERTEX_AI_GEMINI_PROJECT_ID"
+      
     - name: Debug ENV Vars (temp)
       run: echo "${SPRING_AI_VERTEX_GEMINI_CREDENTIALS}" | jq .
