@@ -86,11 +86,8 @@ jobs:
                   location: us-central1
                   service-account-location: classpath:vertex-ai-api-key.json
                   chat:
-                    model: ${SPRING_AI_VERTEX_AI_GEMINI_CHAT_MODEL}
-                    
-          # Add other required sections here
-          EOF
-          ls src/main/resources/  # Debug
+                    model: ${SPRING_AI_VERTEX_AI_GEMINI_CHAT_MODEL}                    
+        EOF
           
       # For debugging
     - name: Debug Spring AI ENV
