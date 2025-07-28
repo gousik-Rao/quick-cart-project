@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 public class ProductDTO {
     private Long productId;
     @NotBlank
-    @Size(min = 3, message = "Product name must containt at least 3 charactest.")
+    @Size(min = 3, message = "Product name must contain at least 3 characters.")
     private String productName;
     private String image;
     @NotBlank
-    @Size(min = 6, message = "Product description must containt at least 6 charactest.")
+    @Size(min = 6, message = "Product description must contain at least 6 characters.")
     private String description;
     @Positive
     private Integer quantity;

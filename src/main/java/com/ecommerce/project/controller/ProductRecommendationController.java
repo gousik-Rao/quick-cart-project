@@ -1,6 +1,7 @@
 package com.ecommerce.project.controller;
 
-import org.springframework.http.HttpStatus;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,12 +22,12 @@ public class ProductRecommendationController {
     }
 
     @PostMapping
-    public ResponseEntity<String> getRecommendations(@RequestBody ProductRecommendationRequest request) {
-    	System.out.println("GOOGLE_APPLICATION_CREDENTIALS: " + System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
+    public ResponseEntity<?> getRecommendations(@RequestBody ProductRecommendationRequest request) {
 
     	String aiOutput= aiService.getProductsRecommendations(request);
-        return new ResponseEntity<>(aiOutput, HttpStatus.OK);
+    	
+    	Map<String, Object> response = Map.of("status", "success", "recommendations", aiOutput);
+    	
+        return ResponseEntity.ok(response);
     }
-
-
 }

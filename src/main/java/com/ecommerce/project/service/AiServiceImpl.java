@@ -3,6 +3,7 @@ package com.ecommerce.project.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,12 +15,17 @@ import reactor.core.publisher.Mono;
 
 @Service @SuppressWarnings("unchecked")
 public class AiServiceImpl implements AiService {
+	
     private final WebClient webClient;
-    private final String apiKey;
+    
+    @Value("${spring.google.ai.studio.api.key}")
+    private String apiKey;
+    
+    @Value("${spring.google.ai.studio.model.name}")
+    private String model;
 
-    public AiServiceImpl(WebClient.Builder builder, String apiKey) {
-        this.apiKey = apiKey;
-        this.webClient = builder.baseUrl("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro").build();
+    public AiServiceImpl(WebClient.Builder builder) {
+        this.webClient = builder.baseUrl("https://generativelanguage.googleapis.com").build();            
     }
 
     @Override
@@ -61,9 +67,11 @@ public class AiServiceImpl implements AiService {
     			)
        );
        
+       System.out.println("Calling: https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + apiKey);
+
        return webClient.post()
     		   .uri(uriBuilder -> uriBuilder
-    				   .path("/generateContent")
+    				   .path("/v1beta/models/" + model + ":generateContent")
     				   .queryParam("key", apiKey)
     				   .build())
     		   .contentType(MediaType.APPLICATION_JSON)
