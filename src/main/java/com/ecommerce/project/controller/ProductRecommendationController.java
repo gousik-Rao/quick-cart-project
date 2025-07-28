@@ -22,7 +22,9 @@ public class ProductRecommendationController {
 
     @PostMapping
     public ResponseEntity<String> getRecommendations(@RequestBody ProductRecommendationRequest request) {
-        String aiOutput= aiService.getProductsRecommendations(request);
+    	System.out.println("GOOGLE_APPLICATION_CREDENTIALS: " + System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
+
+    	String aiOutput= aiService.getProductsRecommendations(request);
         return new ResponseEntity<>(aiOutput, HttpStatus.OK);
     }
 

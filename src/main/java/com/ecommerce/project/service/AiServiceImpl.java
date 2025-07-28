@@ -1,20 +1,25 @@
 package com.ecommerce.project.service;
 
-import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel.ChatModel;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.ecommerce.project.exception.APIException;
 import com.ecommerce.project.payload.ProductRecommendationRequest;
 
-@Service
-public class AiServiceImpl implements AiService {
-    private final VertexAiGeminiChatModel chatModel;
+import reactor.core.publisher.Mono;
 
-    public AiServiceImpl(VertexAiGeminiChatModel chatModel) {
-        this.chatModel = chatModel;
+@Service @SuppressWarnings("unchecked")
+public class AiServiceImpl implements AiService {
+    private final WebClient webClient;
+    private final String apiKey;
+
+    public AiServiceImpl(WebClient.Builder builder, String apiKey) {
+        this.apiKey = apiKey;
+        this.webClient = builder.baseUrl("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro").build();
     }
 
     @Override
@@ -34,7 +39,7 @@ public class AiServiceImpl implements AiService {
             throw new APIException("Goals list must not exceed 300 characters.");
         }
 
-        var structuredRequest = String.format("""
+        var prompt = String.format("""
                 You are a supplement advisor for an online store. Act as a knowledgeable and friendly assistant.
                 You only have 300 tokens available to respond.
                                                 Based on the user's information, generate a list of recommended supplements.
@@ -50,12 +55,40 @@ public class AiServiceImpl implements AiService {
                                                 Limit the list to 5-7 items.
                 """,request.getAge(), request.getGender(), request.getUserGoals());
 
-        Prompt prompt = new Prompt(structuredRequest,
-                VertexAiGeminiChatOptions.builder()
-                        .model(ChatModel.GEMINI_2_5_PRO)
-                        .temperature(0.1)
-                        .maxOutputTokens(380)
-                        .build());
-        return chatModel.call(prompt).getResult().getOutput().getText();
+       Map<String, Object> body = Map.of(
+    		   "contents", List.of(
+    				   Map.of("parts", List.of(Map.of("text", prompt)))
+    			)
+       );
+       
+       return webClient.post()
+    		   .uri(uriBuilder -> uriBuilder
+    				   .path("/generateContent")
+    				   .queryParam("key", apiKey)
+    				   .build())
+    		   .contentType(MediaType.APPLICATION_JSON)
+    		   .bodyValue(body)
+    		   .retrieve()
+    		   .bodyToMono(Map.class)
+    		   .map(response -> {
+    			   
+				List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.get("candidates");
+    			   if (candidates != null && !candidates.isEmpty()) {
+                       Map<String, Object> content = (Map<String, Object>) candidates.get(0).get("content");
+                       List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
+                       return (String) parts.get(0).get("text");
+                   }
+                   return "No recommendation generated.";
+               })
+               .onErrorResume(ex -> Mono.just("AI Error: " + ex.getMessage()))
+               .block(); // Optional: you can make this reactive by returning Mono<String>
+    		   
     }
 }
+
+
+
+
+
+
+

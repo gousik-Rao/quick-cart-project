@@ -95,6 +95,8 @@ public class AuthController {
 
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
+        System.out.println(jwtCookie);
+        
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());

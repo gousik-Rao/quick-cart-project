@@ -54,6 +54,7 @@ import com.ecommerce.project.security.jwt.AuthTokenFilter;
 @EnableWebSecurity
 //@EnableMethodSecurity
 public class WebSecurityConfig {
+	
     @Autowired
     @Lazy
     UserDetailsService userDetailsService;
@@ -215,7 +216,6 @@ public class WebSecurityConfig {
                 CONTENT_TYPE,
                 ACCEPT,
                 AUTHORIZATION,
-
                 ACCESS_CONTROL_REQUEST_METHOD,
                 ACCESS_CONTROL_REQUEST_HEADERS
 
@@ -227,7 +227,6 @@ public class WebSecurityConfig {
                 CONTENT_TYPE,
                 ACCEPT,
                 AUTHORIZATION,
-
                 ACCESS_CONTROL_REQUEST_METHOD,
                 ACCESS_CONTROL_REQUEST_HEADERS
 

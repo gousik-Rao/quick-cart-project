@@ -6,14 +6,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.7</version>
+		<version>3.4.8</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ecommerce</groupId>
-	<artifactId>sb-ecom</artifactId>
+	<artifactId>quick-cart</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sb-ecom</name>
-	<description>sb-ecom</description>
+	<name>quick-cart</name>
+	<description>quick-cart project powered with AI recommendations</description>
 	<url />
 	<licenses>
 		<license />
@@ -118,7 +118,7 @@
 			<artifactId>stripe-java</artifactId>
 			<version>29.0.0</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-starter-model-vertex-ai-gemini</artifactId>
 			<exclusions>
@@ -127,7 +127,12 @@
 					<artifactId>spring-cloud-function-context</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency>-->
+		<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-webflux</artifactId>
+</dependency>
+
 
 		<dependency>
 			<groupId>com.googlecode.libphonenumber</groupId>

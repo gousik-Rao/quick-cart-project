@@ -5,8 +5,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
-@SpringBootTest(classes = SbEcomApplication.class)
-class SbEcomApplicationTests {
+@SpringBootTest(classes = QuickCartApplication.class)
+class QuickCartApplicationTests {
 
     @Test
     void contextLoads() {
