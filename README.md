@@ -62,11 +62,15 @@ cd quickcart
 src/
 ├── main/
 │   ├── java/com/ecommerce/project
+│   │   └── config
 │   │   ├── controller
+│   │   └── exception
 │   │   ├── model
+│   │   └── payload
 │   │   ├── service
 │   │   ├── repository
 │   │   └── security
+│   │   └── util
 │   └── resources/
 │       └── application.yml
 
