@@ -6,9 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.project.payload.ProductRecommendationRequest;
+import com.ecommerce.project.payload.ProductResponse;
 import com.ecommerce.project.service.AiService;
 
 @RestController
@@ -22,9 +24,11 @@ public class ProductRecommendationController {
     }
 
     @PostMapping
-    public ResponseEntity<?> getRecommendations(@RequestBody ProductRecommendationRequest request) {
+    public ResponseEntity<?> getRecommendations(@RequestBody ProductRecommendationRequest request,                
+    											@RequestParam(defaultValue = "0")int pageSize, 
+    											@RequestParam(defaultValue = "5")int pageNumber) {
 
-    	String aiOutput= aiService.getProductsRecommendations(request);
+    	ProductResponse aiOutput= aiService.getProductsRecommendations(request, pageSize, pageNumber);
     	
     	Map<String, Object> response = Map.of("status", "success", "recommendations", aiOutput);
     	

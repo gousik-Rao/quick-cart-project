@@ -39,8 +39,10 @@ public class ProductServiceImpl implements ProductService {
     private final CartRepository cartRepository;
     private final CartService cartService;
     private final AuthUtil authUtil;
+    
     @SuppressWarnings("unused")
 	private final UserRepository userRepository;
+    
     @Value("${project.image}")
     private String path;
 
@@ -227,9 +229,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse searchProductByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+    	
         Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc")? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        
         Pageable pageDetails = PageRequest.of(pageNumber,pageSize,sortByAndOrder);
-        Page<Product> page = productRepository.findByProductNameLikeIgnoreCase("%" + keyword + "%", pageDetails);
+        Page<Product> page = productRepository.searchProductByApproxName(keyword, pageDetails);
         List<Product> products = page.getContent();
 
         List<ProductDTO> productDTOS = products.stream().filter((Product::getIsAvailable)).map((product) -> modelMapper.map(product, ProductDTO.class)).toList();

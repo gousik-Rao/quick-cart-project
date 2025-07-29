@@ -33,20 +33,26 @@ import lombok.ToString;
 @Getter
 @Setter
 public class Product {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
+    
     @NotBlank
     @Size(min = 3, message = "Product name must containt at least 3 charactest.")
     private String productName;
+    
     private String image;
+    
     @NotBlank
     @Size(min = 6,max = 255, message = "Product description length must be between 6-255 characters.")
     private String description;
+    
     private Integer quantity;
     private double price;
     private double discount;
     private double specialPrice;
+    
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
