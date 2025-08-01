@@ -136,7 +136,7 @@ public class AiServiceImpl implements AiService {
    private List<String> extractProductNames(String aiOutput) {
        return Arrays.stream(aiOutput.split("\n"))
     		   .filter(line -> line.startsWith("*") || line.startsWith("-"))
-    		   .map(line -> line.replaceAll("*\\-\\d", "")
+    		   .map(line -> line.replaceAll("[*\\-\\d]", "")
     				   			.split(":")[0]
     				   			.trim())
     		   .filter(name -> !name.isBlank())

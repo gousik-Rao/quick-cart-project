@@ -109,9 +109,8 @@ public class OrderServiceImpl implements OrderService{
             int quantity = item.getQuantity();
             Product product = item.getProduct();
 
-            if(product.getSoldCount() == null){
+            if(product.getSoldCount() == null)
                 product.setSoldCount(0L);
-            }
 
             product.setQuantity(product.getQuantity() - quantity);
             product.setSoldCount(product.getSoldCount() + quantity);
